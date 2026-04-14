@@ -1,0 +1,522 @@
+[
+  {
+    "Año": 1956,
+    "Autor": "Violeta Parra",
+    "Álbum": "Chants et Danses du Chili Vol. I",
+    "Posición Global": 132,
+    "Rate": 3.61,
+    "Ratings": 43
+  },
+  {
+    "Año": 1957,
+    "Autor": "Violeta Parra",
+    "Álbum": "El folklore de Chile",
+    "Posición Global": 125,
+    "Rate": 3.64,
+    "Ratings": 74
+  },
+  {
+    "Año": 1958,
+    "Autor": "Violeta Parra",
+    "Álbum": "El folklore de Chile, Vol. IV: La tonada",
+    "Posición Global": 299,
+    "Rate": 3.46,
+    "Ratings": 37
+  },
+  {
+    "Año": 1959,
+    "Autor": "Los Cuatro Huasos",
+    "Álbum": "Tradición Chilena",
+    "Posición Global": "?",
+    "Rate": 2.72,
+    "Ratings": 4
+  },
+  {
+    "Año": 1960,
+    "Autor": "Violeta Parra",
+    "Álbum": "Toda Violeta Parra",
+    "Posición Global": 244,
+    "Rate": 3.51,
+    "Ratings": 62
+  },
+  {
+    "Año": 1961,
+    "Autor": "Conjunto Cuncumen",
+    "Álbum": "Folklore por el Conjunto Cuncumen",
+    "Posición Global": "?",
+    "Rate": 4,
+    "Ratings": 2
+  },
+  {
+    "Año": 1962,
+    "Autor": "Violeta Parra",
+    "Álbum": "El folklore de Chile según Violeta Parra",
+    "Posición Global": 249,
+    "Rate": 3.74,
+    "Ratings": 29
+  },
+  {
+    "Año": 1963,
+    "Autor": "Dúo Rey Silva, Mario Catalán & Elia Ramírez",
+    "Álbum": "Cuecas",
+    "Posición Global": "?",
+    "Rate": 3.5,
+    "Ratings": 2
+  },
+  {
+    "Año": 1964,
+    "Autor": "Cecilia",
+    "Álbum": "Cecilia",
+    "Posición Global": "?",
+    "Rate": 4.07,
+    "Ratings": 8
+  },
+  {
+    "Año": 1965,
+    "Autor": "Violeta Parra",
+    "Álbum": "Recordando a Chile: Una chilena en París",
+    "Posición Global": 84,
+    "Rate": 3.78,
+    "Ratings": 72
+  },
+  {
+    "Año": 1966,
+    "Autor": "Violeta Parra",
+    "Álbum": "Las últimas composiciones de Violeta Parra",
+    "Posición Global": 31,
+    "Rate": 3.83,
+    "Ratings": 961
+  },
+  {
+    "Año": 1967,
+    "Autor": "Víctor Jara",
+    "Álbum": "Víctor Jara",
+    "Posición Global": 111,
+    "Rate": 3.74,
+    "Ratings": 132
+  },
+  {
+    "Año": 1968,
+    "Autor": "Rolando Alarcón",
+    "Álbum": "Canciones de la guerra civil española",
+    "Posición Global": 313,
+    "Rate": 3.68,
+    "Ratings": 83
+  },
+  {
+    "Año": 1969,
+    "Autor": "Víctor Jara",
+    "Álbum": "Pongo en tus manos abiertas...",
+    "Posición Global": 65,
+    "Rate": 3.78,
+    "Ratings": 520
+  },
+  {
+    "Año": 1970,
+    "Autor": "Quilapayún",
+    "Álbum": "Santa María de Iquique - Cantata popular",
+    "Posición Global": 76,
+    "Rate": 3.78,
+    "Ratings": 343
+  },
+  {
+    "Año": 1971,
+    "Autor": "Víctor Jara",
+    "Álbum": "El derecho de vivir en paz",
+    "Posición Global": 45,
+    "Rate": 3.85,
+    "Ratings": 1181
+  },
+  {
+    "Año": 1972,
+    "Autor": "Víctor Jara",
+    "Álbum": "La población",
+    "Posición Global": 209,
+    "Rate": 3.74,
+    "Ratings": 141
+  },
+  {
+    "Año": 1973,
+    "Autor": "Los Jaivas",
+    "Álbum": "Los Jaivas [La ventana]",
+    "Posición Global": 303,
+    "Rate": 3.65,
+    "Ratings": 304
+  },
+  {
+    "Año": 1974,
+    "Autor": "Inti-Illimani",
+    "Álbum": "La nueva canción chilena",
+    "Posición Global": 95,
+    "Rate": 3.78,
+    "Ratings": 243
+  },
+  {
+    "Año": 1975,
+    "Autor": "Los Jaivas",
+    "Álbum": "Los Jaivas [El indio]",
+    "Posición Global": 43,
+    "Rate": 3.82,
+    "Ratings": 487
+  },
+  {
+    "Año": 1976,
+    "Autor": "Inti-Illimani",
+    "Álbum": "Canto de pueblos andinos Vol II",
+    "Posición Global": 397,
+    "Rate": 3.66,
+    "Ratings": 69
+  },
+  {
+    "Año": 1977,
+    "Autor": "Los Jaivas",
+    "Álbum": "Canción del sur",
+    "Posición Global": 174,
+    "Rate": 3.69,
+    "Ratings": 239
+  },
+  {
+    "Año": 1978,
+    "Autor": "Grupo Agua",
+    "Álbum": "Transparencia",
+    "Posición Global": 855,
+    "Rate": 3.41,
+    "Ratings": 50
+  },
+  {
+    "Año": 1979,
+    "Autor": "Inti-Illimani",
+    "Álbum": "Canción para matar una culebra",
+    "Posición Global": 186,
+    "Rate": 3.72,
+    "Ratings": 92
+  },
+  {
+    "Año": 1980,
+    "Autor": "Quilapayún",
+    "Álbum": "Donner à l’automne un coup de fenêtre...",
+    "Posición Global": "?",
+    "Rate": 3.39,
+    "Ratings": 6
+  },
+  {
+    "Año": 1981,
+    "Autor": "Los Jaivas",
+    "Álbum": "Alturas de Machu Pichu",
+    "Posición Global": 18,
+    "Rate": 3.82,
+    "Ratings": 1301
+  },
+  {
+    "Año": 1982,
+    "Autor": "Los Jaivas",
+    "Álbum": "Aconcagua",
+    "Posición Global": 357,
+    "Rate": 3.55,
+    "Ratings": 156
+  },
+  {
+    "Año": 1983,
+    "Autor": "Congreso",
+    "Álbum": "Ha Llegado Carta",
+    "Posición Global": 241,
+    "Rate": 3.67,
+    "Ratings": 62
+  },
+  {
+    "Año": 1984,
+    "Autor": "Congreso",
+    "Álbum": "Pájaros de arcilla",
+    "Posición Global": 72,
+    "Rate": 3.78,
+    "Ratings": 116
+  },
+  {
+    "Año": 1985,
+    "Autor": "Aparato Raro",
+    "Álbum": "Aparato Raro",
+    "Posición Global": "?",
+    "Rate": 2.81,
+    "Ratings": 35
+  },
+  {
+    "Año": 1986,
+    "Autor": "Los Prisioneros",
+    "Álbum": "Pateando piedras",
+    "Posición Global": 70,
+    "Rate": 3.72,
+    "Ratings": 593
+  },
+  {
+    "Año": 1987,
+    "Autor": "Fulano",
+    "Álbum": "Fulano",
+    "Posición Global": 166,
+    "Rate": 3.71,
+    "Ratings": 81
+  },
+  {
+    "Año": 1988,
+    "Autor": "Illapu",
+    "Álbum": "Para seguir viviendo",
+    "Posición Global": "?",
+    "Rate": 3.84,
+    "Ratings": 25
+  },
+  {
+    "Año": 1989,
+    "Autor": "Fulano",
+    "Álbum": "En el bunker",
+    "Posición Global": 300,
+    "Rate": 3.65,
+    "Ratings": 69
+  },
+  {
+    "Año": 1990,
+    "Autor": "Los Prisioneros",
+    "Álbum": "Corazones",
+    "Posición Global": 67,
+    "Rate": 3.73,
+    "Ratings": 499
+  },
+  {
+    "Año": 1991,
+    "Autor": "Los Tres",
+    "Álbum": "Los Tres",
+    "Posición Global": 99,
+    "Rate": 3.71,
+    "Ratings": 270
+  },
+  {
+    "Año": 1992,
+    "Autor": "Supersordo",
+    "Álbum": "Supersórdido",
+    "Posición Global": 292,
+    "Rate": 3.64,
+    "Ratings": 97
+  },
+  {
+    "Año": 1993,
+    "Autor": "Dorso",
+    "Álbum": "El espanto surge de la tumba",
+    "Posición Global": "?",
+    "Rate": 3.52,
+    "Ratings": 39
+  },
+  {
+    "Año": 1994,
+    "Autor": "Los Peores de Chile",
+    "Álbum": "Los Peores de Chile",
+    "Posición Global": "?",
+    "Rate": 3.58,
+    "Ratings": 25
+  },
+  {
+    "Año": 1995,
+    "Autor": "Los Tres",
+    "Álbum": "La espada & la pared",
+    "Posición Global": 105,
+    "Rate": 3.76,
+    "Ratings": 272
+  },
+  {
+    "Año": 1996,
+    "Autor": "Mauricio Redolés",
+    "Álbum": "¿Quién mató a Gaete?",
+    "Posición Global": "?",
+    "Rate": 3.71,
+    "Ratings": 66
+  },
+  {
+    "Año": 1997,
+    "Autor": "Los Tres",
+    "Álbum": "Fome",
+    "Posición Global": 57,
+    "Rate": 3.79,
+    "Ratings": 367
+  },
+  {
+    "Año": 1998,
+    "Autor": "Fiskales Ad-Hok",
+    "Álbum": "Fiesta",
+    "Posición Global": "?",
+    "Rate": 3.77,
+    "Ratings": 68
+  },
+  {
+    "Año": 1999,
+    "Autor": "Makiza",
+    "Álbum": "Aerolineas Makiza",
+    "Posición Global": 325,
+    "Rate": 3.62,
+    "Ratings": 119
+  },
+  {
+    "Año": 2000,
+    "Autor": "Yajaira",
+    "Álbum": "Lento y real",
+    "Posición Global": "?",
+    "Rate": 3.52,
+    "Ratings": 42
+  },
+  {
+    "Año": 2001,
+    "Autor": "Akinetón Retard",
+    "Álbum": "Akranania",
+    "Posición Global": 635,
+    "Rate": 3.52,
+    "Ratings": 106
+  },
+  {
+    "Año": 2002,
+    "Autor": "Alejandro Silva",
+    "Álbum": "Dios Eol",
+    "Posición Global": "?",
+    "Rate": 3.88,
+    "Ratings": 20
+  },
+  {
+    "Año": 2003,
+    "Autor": "Mecánica Popular",
+    "Álbum": "Fatamorgana",
+    "Posición Global": "?",
+    "Rate": 3.79,
+    "Ratings": 53
+  },
+  {
+    "Año": 2004,
+    "Autor": "Mar de Grises",
+    "Álbum": "The Tatterdemalion Express",
+    "Posición Global": 153,
+    "Rate": 3.66,
+    "Ratings": 310
+  },
+  {
+    "Año": 2005,
+    "Autor": "La Mano Ajena",
+    "Álbum": "La mano ajena",
+    "Posición Global": "?",
+    "Rate": 3.94,
+    "Ratings": 27
+  },
+  {
+    "Año": 2006,
+    "Autor": "Javiera Mena",
+    "Álbum": "Esquemas juveniles",
+    "Posición Global": 240,
+    "Rate": 3.59,
+    "Ratings": 465
+  },
+  {
+    "Año": 2007,
+    "Autor": "Matorral",
+    "Álbum": "Resonancia en la zona central",
+    "Posición Global": "?",
+    "Rate": 3.66,
+    "Ratings": 98
+  },
+  {
+    "Año": 2008,
+    "Autor": "Teleradio Donoso",
+    "Álbum": "Bailar y llorar",
+    "Posición Global": 46,
+    "Rate": 3.72,
+    "Ratings": 216
+  },
+  {
+    "Año": 2009,
+    "Autor": "Los Mil Jinetes",
+    "Álbum": "Reconoceronte",
+    "Posición Global": "?",
+    "Rate": 3.59,
+    "Ratings": 48
+  },
+  {
+    "Año": 2010,
+    "Autor": "Odisea",
+    "Álbum": "Odisea",
+    "Posición Global": "?",
+    "Rate": 3.67,
+    "Ratings": 137
+  },
+  {
+    "Año": 2011,
+    "Autor": "Hades Archer",
+    "Álbum": "For the Diabolical Ages",
+    "Posición Global": 542,
+    "Rate": 3.39,
+    "Ratings": 191
+  },
+  {
+    "Año": 2012,
+    "Autor": "Como Asesinar a Felipes",
+    "Álbum": "Comenzará de nuevo",
+    "Posición Global": "?",
+    "Rate": 3.68,
+    "Ratings": 50
+  },
+  {
+    "Año": 2013,
+    "Autor": "Juan Mateo O’Brien",
+    "Álbum": "Gran avenida",
+    "Posición Global": "?",
+    "Rate": 3.89,
+    "Ratings": 32
+  },
+  {
+    "Año": 2014,
+    "Autor": "Ripper",
+    "Álbum": "Raising the Corpse",
+    "Posición Global": "?",
+    "Rate": 3.48,
+    "Ratings": 136
+  },
+  {
+    "Año": 2015,
+    "Autor": "Tus Amigos Nuevos",
+    "Álbum": "Triunfo moral",
+    "Posición Global": "?",
+    "Rate": 3.64,
+    "Ratings": 120
+  },
+  {
+    "Año": 2016,
+    "Autor": "Diego Lorenzini",
+    "Álbum": "Pino",
+    "Posición Global": "?",
+    "Rate": 3.66,
+    "Ratings": 64
+  },
+  {
+    "Año": 2017,
+    "Autor": "Como Asesinar a Felipes",
+    "Álbum": "Elipse",
+    "Posición Global": "?",
+    "Rate": 3.71,
+    "Ratings": 123
+  },
+  {
+    "Año": 2018,
+    "Autor": "Niños del Cerro",
+    "Álbum": "Lance",
+    "Posición Global": 39,
+    "Rate": 3.68,
+    "Ratings": 528
+  },
+  {
+    "Año": 2019,
+    "Autor": "Diego Lorenzini",
+    "Álbum": "De algo hay que morir",
+    "Posición Global": "?",
+    "Rate": 3.62,
+    "Ratings": 126
+  },
+  {
+    "Año": 2020,
+    "Autor": "Rubio",
+    "Álbum": "Mango negro",
+    "Posición Global": 172,
+    "Rate": 3.5,
+    "Ratings": 187
+  }
+]

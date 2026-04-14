@@ -1,15 +1,58 @@
 <!DOCTYPE html>
-<html lang="en"></html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualización de la Información</title>
+    <title>Visualización de Álbumes - Violeta Parra</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body { font-family: sans-serif; margin: 20px; background-color: #f4f4f9; }
+        #grafico { width: 100%; max-width: 900px; height: 500px; margin: auto; }
+        h2 { text-align: center; color: #333; }
+    </style>
 </head>
-
 <body>
-    <h1>hello world</h1>
 
+    <h2>Año vs Rate: Discografía</h2>
+    <div id="grafico"></div>
+
+    <script>
+        fetch("dataset.json")
+        .then(response => response.json())
+        .then(datos => {
+        // Mapeamos los datos para que Plotly los entienda
+        const trace = {
+            x: datos.map(d => d.Año),
+            y: datos.map(d => d.Rate),
+            text: datos.map(d => d.Álbum), // Texto que aparecerá al pasar el mouse
+            mode: 'markers', // Gráfico de puntos
+            type: 'scatter',
+            marker: {
+            size: 12,
+            color: '#d62728', // Un rojo vibrante
+            line: { width: 1, color: 'white' }
+            }
+        };
+
+        const layout = {
+            title: 'Rate de Álbumes a lo largo del tiempo',
+            xaxis: {
+            title: 'Año',
+            tickformat: 'd' // Formato para que el año no tenga comas
+            },
+            yaxis: {
+            title: 'Rate (Calificación)',
+            range: [0, 5] // Suponiendo escala de 0 a 5
+            },
+            hovermode: 'closest'
+        };
+
+        const config = { responsive: true };
+
+        // Generar el gráfico
+        Plotly.newPlot('grafico', [trace], layout, config);
+        })
+        .catch(error => console.error("Error cargando dataset:", error));
+    </script>
 </body>
-
 </html>
-

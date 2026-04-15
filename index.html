@@ -28,7 +28,10 @@
             mode: 'markers', // Gráfico de puntos
             type: 'scatter',
             marker: {
-            size: 12,
+            size: datos.map(d => d.Ratings), // Tamaño según cantidad de calificaciones
+            sizemode: 'area',
+            sizeref: 2.0 * Math.max(...datos.map(d => d.Ratings)) / (40**2), // Ajuste para evitar exageraciones (lie factor)
+            sizemin: 4,
             color: '#d62728', // Un rojo vibrante
             line: { width: 1, color: 'white' }
             }

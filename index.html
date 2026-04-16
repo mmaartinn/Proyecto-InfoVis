@@ -20,40 +20,66 @@
         fetch("dataset.json")
         .then(response => response.json())
         .then(datos => {
-        // Mapeamos los datos para que Plotly los entienda
-        const trace = {
-            x: datos.map(d => d.Año),
-            y: datos.map(d => d.Rate),
-            text: datos.map(d => d.Álbum), // Texto que aparecerá al pasar el mouse
-            mode: 'markers', // Gráfico de puntos
-            type: 'scatter',
-            marker: {
-            size: datos.map(d => d.Ratings), // Tamaño según cantidad de calificaciones
-            sizemode: 'area',
-            sizeref: 2.0 * Math.max(...datos.map(d => d.Ratings)) / (40**2), // Ajuste para evitar exageraciones (lie factor)
-            sizemin: 4,
-            color: '#d62728', // Un rojo vibrante
-            line: { width: 1, color: 'white' }
-            }
-        };
 
-        const layout = {
-            title: 'Rate de Álbumes a lo largo del tiempo',
-            xaxis: {
-            title: 'Año',
-            tickformat: 'd' // Formato para que el año no tenga comas
-            },
-            yaxis: {
-            title: 'Rate (Calificación)',
-            range: [0, 5] // Suponiendo escala de 0 a 5
-            },
-            hovermode: 'closest'
-        };
+            const añosRepresentativos = [1959, 1981, 1985, 1997, 2020];
+            const anotaciones = [];
 
-        const config = { responsive: true };
+            añosRepresentativos.forEach(año => {
+                // Buscamos el disco que corresponda a ese año
+                const albumDestacado = datos.find(d => d.Año === año);
+                
+                if (albumDestacado) {
+                    anotaciones.push({
+                        x: albumDestacado.Año,
+                        y: albumDestacado.Rate,
+                        text: `<b>${albumDestacado.Álbum} (${albumDestacado.Rate})</b>`,
+                        showarrow: true,
+                        arrowhead: 2,
+                        ax: 0,
+                        ay: -50,
+                        standoff: 15, 
+                        font: { size: 10, color: '#333' },
+                        bgcolor: 'rgba(255, 255, 255, 0.85)',
+                        bordercolor: '#999',
+                        borderwidth: 1,
+                        borderpad: 4
+                    });
+                }
+            });
+            const trace = {
+                x: datos.map(d => d.Año),
+                y: datos.map(d => d.Rate),
+                text: datos.map(d => d.Álbum), // Para E2
+                mode: 'markers',
+                type: 'scatter',
+                marker: {
+                    size: datos.map(d => d.Ratings), // Bubble
+                    sizemode: 'area',
+                    sizeref: 2.0 * Math.max(...datos.map(d => d.Ratings)) / (40**2), // Ajuste al cuadrado para evitar exageraciones
+                    sizemin: 4,
+                    color: '#d62728',
+                    line: { width: 1, color: 'white' }
+                }
+            };
 
-        // Generar el gráfico
-        Plotly.newPlot('grafico', [trace], layout, config);
+            const layout = {
+                title: 'Rate de Álbumes a lo largo del tiempo',
+                xaxis: {
+                    title: 'Año',
+                    tickformat: 'd'
+                },
+                yaxis: {
+                    title: 'Rate (Calificación)',
+                    range: [0, 5] // máximo 5 estrellas
+                },
+                hovermode: 'closest',
+                annotations: anotaciones
+            };
+
+            const config = { responsive: true };
+
+            // Generar el gráfico
+            Plotly.newPlot('grafico', [trace], layout, config);
         })
         .catch(error => console.error("Error cargando dataset:", error));
     </script>

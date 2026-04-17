@@ -3,41 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualización de Álbumes - Violeta Parra</title>
+    <title>Visualización de Álbumes - Discografía</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
         body { font-family: sans-serif; margin: 20px; background-color: #f4f4f9; }
-        #grafico { width: 100%; max-width: 900px; height: 500px; margin: auto; }
+        #grafico { width: 100%; max-width: 900px; height: 500px; margin: auto; background: white; border: 1px solid #ddd; }
         h2 { text-align: center; color: #333; }
     </style>
 </head>
 <body>
 
-    <h2>Año vs Rate: Discografía</h2>
+    <h2>Rate de Álbumes a lo largo del tiempo</h2>
     <div id="grafico"></div>
 
     <script>
         fetch("dataset.json")
         .then(response => response.json())
         .then(datos => {
-
-            const añosRepresentativos = [1959, 1981, 1985, 1997, 2020];
+            
+            const añosRepresentativos = [1960, 1981, 1985, 1997, 2020];
             const anotaciones = [];
 
             añosRepresentativos.forEach(año => {
-                // Buscamos el disco que corresponda a ese año
                 const albumDestacado = datos.find(d => d.Año === año);
-                
                 if (albumDestacado) {
                     anotaciones.push({
                         x: albumDestacado.Año,
                         y: albumDestacado.Rate,
-                        text: `<b>${albumDestacado.Álbum} (${albumDestacado.Rate})</b>`,
+                        text: `<b>"${albumDestacado.Álbum}" (${albumDestacado.Rate})</b>`,
                         showarrow: true,
                         arrowhead: 2,
                         ax: 0,
                         ay: -50,
-                        standoff: 15, 
+                        standoff: 15,
                         font: { size: 10, color: '#333' },
                         bgcolor: 'rgba(255, 255, 255, 0.85)',
                         bordercolor: '#999',
@@ -46,40 +44,55 @@
                     });
                 }
             });
-            const trace = {
-                x: datos.map(d => d.Año),
-                y: datos.map(d => d.Rate),
-                text: datos.map(d => d.Álbum), // Para E2
-                mode: 'markers',
-                type: 'scatter',
-                marker: {
-                    size: datos.map(d => d.Ratings), // Bubble
-                    sizemode: 'area',
-                    sizeref: 2.0 * Math.max(...datos.map(d => d.Ratings)) / (40**2), // Ajuste al cuadrado para evitar exageraciones
-                    sizemin: 4,
-                    color: '#d62728',
-                    line: { width: 1, color: 'white' }
-                }
+
+            // Colores
+            const paletaColores = {
+                "Violeta Parra": "#8E44AD", // Violeta claramente
+                "Folklore": "#F39C12", // Amarillo
+                "Victor Jara": "#E74C3C", // Rojo
+                "Rock": "#3498DB", // Azul
+                "Otro": "#2ECC71" // Verde
             };
 
+            const maxRatings = Math.max(...datos.map(d => d.Ratings || 1));
+            const sizeRef = 2.0 * maxRatings / (40**2);
+
+            const generosUnicos = [...new Set(datos.map(d => d.Género))];
+
+            const traces = generosUnicos.map(genero => {
+                const datosGenero = datos.filter(d => d.Género === genero);
+
+                return {
+                    x: datosGenero.map(d => d.Año),
+                    y: datosGenero.map(d => d.Rate),
+                    text: datosGenero.map(d => d.Álbum),
+                    mode: 'markers',
+                    type: 'scatter',
+                    name: genero, // Esto crea la leyenda automáticamente
+                    marker: {
+                        size: datosGenero.map(d => d.Ratings),
+                        sizemode: 'area',
+                        sizeref: sizeRef, // Usamos la misma referencia para todos
+                        sizemin: 4,
+                        color: paletaColores[genero] || "#E74C3C", // Color predeterminado
+                        line: { width: 1, color: 'white' }
+                    }
+                };
+            });
+
             const layout = {
-                title: 'Rate de Álbumes a lo largo del tiempo',
-                xaxis: {
-                    title: 'Año',
-                    tickformat: 'd'
-                },
-                yaxis: {
-                    title: 'Rate (Calificación)',
-                    range: [0, 5] // máximo 5 estrellas
-                },
+                title: 'Álbums chilenos top 1 en ranking chileno',
+                xaxis: { title: 'Año', tickformat: 'd' },
+                yaxis: { title: 'Rate (Calificación)', range: [0, 5] },
                 hovermode: 'closest',
-                annotations: anotaciones
+                annotations: anotaciones,
+                plot_bgcolor: '#fafafa',
+                paper_bgcolor: '#ffffff'
             };
 
             const config = { responsive: true };
 
-            // Generar el gráfico
-            Plotly.newPlot('grafico', [trace], layout, config);
+            Plotly.newPlot('grafico', traces, layout, config);
         })
         .catch(error => console.error("Error cargando dataset:", error));
     </script>

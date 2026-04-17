@@ -13,7 +13,7 @@
 </head>
 <body>
 
-    <h2>Rate de Álbumes a lo largo del tiempo</h2>
+    <h2>Rate de Álbums a lo largo del tiempo</h2>
     <div id="grafico"></div>
 
     <script>
@@ -68,7 +68,7 @@
                     text: datosGenero.map(d => d.Álbum),
                     mode: 'markers',
                     type: 'scatter',
-                    name: genero, // Esto crea la leyenda automáticamente
+                    name: genero, // Leyenda
                     marker: {
                         size: datosGenero.map(d => d.Ratings),
                         sizemode: 'area',
@@ -80,14 +80,70 @@
                 };
             });
 
+
+            // CONTEXTO
+            const albumParaComentario = datos.find(d => d.Año === 2006);
+            if (albumParaComentario) {
+                const comentarioTextoPos = { x: 2012, y: 1.8 }; // Arbitrario
+
+                anotaciones.push({ // Cuadro de texto
+                    x: comentarioTextoPos.x,
+                    y: comentarioTextoPos.y,
+                    xref: 'x', yref: 'y',
+                    text: '<i>El tamaño del punto representa la<br>cantidad de calificaciones que obtuvo</i>',
+                    showarrow: false, // El cuadro no tiene flecha propia.
+                    font: { size: 11, color: 'black' },
+                    bgcolor: '#f2f2f2', // Gris
+                    bordercolor: '#000000',
+                    borderwidth: 1,
+                    borderpad: 6
+                });
+
+                anotaciones.push({ // Flecha roja
+                    x: comentarioTextoPos.x,
+                    y: comentarioTextoPos.y + 0.3, // +0.3 para no tapar el texto
+                    xref: 'x', yref: 'y',
+                    text: '',
+                    showarrow: true,
+                    arrowhead: 2,
+                    arrowsize: 1,
+                    arrowwidth: 2,
+                    arrowcolor: 'red',
+                    axref: 'x', ayref: 'y',
+                    ax: albumParaComentario.Año,
+                    ay: albumParaComentario.Rate
+                });
+            }
+
+            anotaciones.push({ // Comentario sobre estrellas
+                xref: 'paper', yref: 'paper',
+                x: 1.01,
+                y: 0.5,
+                xanchor: 'left',
+                yanchor: 'top',
+                text: '<i>El rate se basa en<br>una calificación<br>de 0 a 5 estrellas,<br>siendo 0 lo más<br>bajo y 5 lo más alto.</i>',
+                showarrow: false,
+                font: { size: 11, color: 'black' },
+                bgcolor: '#f2f2f2',
+                bordercolor: '#000000',
+                borderwidth: 1,
+                borderpad: 6
+            });
+
             const layout = {
-                title: 'Álbums chilenos top 1 en ranking chileno',
+                title: 'Álbums Chilenos Top 1 en Ranking Chileno',
                 xaxis: { title: 'Año', tickformat: 'd' },
                 yaxis: { title: 'Rate (Calificación)', range: [0, 5] },
                 hovermode: 'closest',
                 annotations: anotaciones,
                 plot_bgcolor: '#fafafa',
-                paper_bgcolor: '#ffffff'
+                paper_bgcolor: '#ffffff',
+                legend: {
+                        title: {
+                            text: '<b>Categoría</b>',
+                            font: { size: 13, color: '#333' }
+                        }
+                    }
             };
 
             const config = { responsive: true };

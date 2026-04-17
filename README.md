@@ -2,6 +2,6 @@
 
 Proyecto semestral para Visualización de la Información (IIC2026)
 
-## Información Relevante
+## Link GitHub Pages
 
-- Hasta el momento no estoy usando el css.
+https://mmaartinn.github.io/Proyecto-InfoVis/

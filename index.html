@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visualización de Álbumes - Discografía</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.26/Tone.min.js"></script>
     <style>
         body { font-family: sans-serif; margin: 20px; background-color: #f4f4f9; }
         #grafico { width: 100%; max-width: 900px; height: 500px; margin: auto; background: white; border: 1px solid #ddd; }
@@ -14,9 +15,30 @@
 <body>
 
     <h2>Rate de Álbums a lo largo del tiempo</h2>
+
+    <button id="iniciar-audio" style="display: block; margin: 0 auto 20px auto; padding: 10px 20px; font-size: 16px; cursor: pointer; background-color: #3498DB; color: white; border: none; border-radius: 5px;">
+        Activar Sonido
+    </button>
+
     <div id="grafico"></div>
 
     <script>
+
+        // Usamos Tone.Player para un archivo de audio simple 
+        const reproductor = new Tone.Player({
+            url: "audio.mp3",
+            autostart: false,
+            onload: () => console.log("Audio cargado y listo")
+        }).toDestination(); // Conectamos a los parlantes [cite: 28]
+
+        // Lógica del botón para iniciar el contexto de audio
+        const btnIniciar = document.getElementById('iniciar-audio');
+        btnIniciar.addEventListener('click', async () => {
+            await Tone.start(); // Iniciamos el contexto con el click 
+            console.log('Contexto de audio iniciado'); // [cite: 79]
+            btnIniciar.style.display = 'none'; // Ocultamos el botón una vez activado
+        });
+
         fetch("dataset.json")
         .then(response => response.json())
         .then(datos => {
@@ -149,6 +171,21 @@
             const config = { responsive: true };
 
             Plotly.newPlot('grafico', traces, layout, config);
+
+            const miGrafico = document.getElementById('grafico');
+
+            // Evento que detecta cuando el cursor pasa sobre un punto del gráfico
+            miGrafico.on('plotly_hover', function(data){
+                // Verificamos si el usuario ya activó el audio con el botón
+                if (Tone.context.state === "running") { // [cite: 194]
+                    // Detenemos el audio si ya estaba sonando (para que no se solapen si pasas el mouse muy rápido)
+                    reproductor.stop(); 
+                    
+                    // Iniciamos el audio original, sin mapeo de notas
+                    reproductor.start(); 
+                }
+            });
+
         })
         .catch(error => console.error("Error cargando dataset:", error));
     </script>

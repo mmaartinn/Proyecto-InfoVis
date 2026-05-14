@@ -8,7 +8,79 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.26/Tone.min.js"></script>
     <style>
         body { font-family: sans-serif; margin: 20px; background-color: #f4f4f9; }
-        #grafico { width: 100%; max-width: 900px; height: 500px; margin: auto; background: white; border: 1px solid #ddd; }
+        #contenedor-principal {
+            display: flex;
+
+            justify-content: center;
+
+            align-items: flex-start;
+
+            gap: 25px;
+
+            margin-top: 20px;
+        }
+        #grafico {
+            width: 900px;
+            height: 500px;
+
+            background: white;
+
+            border: 1px solid #ddd;
+        }        
+        #panel-ratings {
+
+            width: 250px;
+
+            padding: 18px;
+
+            background: white;
+
+            border: 1px solid #ccc;
+
+            border-radius: 0px;
+
+            text-align: center;
+
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+
+            font-family: "Open Sans", verdana, arial, sans-serif;
+        }
+
+        #barra-container {
+            width: 100%;
+            height: 30px;
+
+            background-color: #e0e0e0;
+
+            /* CUADRADO */
+            border-radius: 0px;
+
+            overflow: hidden;
+
+            margin-top: 15px;
+        }
+
+        #barra-ratings {
+            height: 100%;
+            width: 0%;
+
+            background-color: #000000;
+
+            /* CUADRADO */
+            border-radius: 0px;
+
+            transition: width 0.3s ease;
+        }
+
+        #texto-ratings {
+            margin-top: 10px;
+
+            font-size: 16px;
+
+            font-weight: 600;
+
+            color: #333;
+        }
         h2 { text-align: center; color: #333; }
     </style>
 </head>
@@ -20,7 +92,22 @@
         Activar Sonido
     </button>
 
-    <div id="grafico"></div>
+    <div id="contenedor-principal">
+
+        <div id="grafico"></div>
+
+        <div id="panel-ratings">
+            <h3 id="album-nombre">Álbum</h3>
+
+            <div id="barra-container">
+                <div id="barra-ratings"></div>
+            </div>
+
+            <p id="texto-ratings">0 ratings</p>
+        </div>
+
+    </div>
+
 
     <script>
 
@@ -43,7 +130,7 @@
         .then(response => response.json())
         .then(datos => {
             
-            const añosRepresentativos = [1959, 1981, 1985];
+            const añosRepresentativos = [];
             const anotaciones = [];
 
             // ------- PARA AUDIOS -------
@@ -54,8 +141,14 @@
                 }
             });
             // Cargamos todos los audios
-            const reproductores = new Tone.Players(rutasAudios).toDestination();
-            // ---------------------
+            // Filtro global
+            const filtro = new Tone.Filter({
+                type: "lowpass",
+                frequency: 5000
+            }).toDestination();
+
+            // Players conectados al filtro
+            const reproductores = new Tone.Players(rutasAudios).connect(filtro);            // ---------------------
 
             añosRepresentativos.forEach(año => {
                 const albumDestacado = datos.find(d => d.Año === año);
@@ -106,10 +199,7 @@
                     type: 'scatter',
                     name: genero,
                     marker: {
-                        size: datosGenero.map(d => d.Ratings),
-                        sizemode: 'area',
-                        sizeref: sizeRef,
-                        sizemin: 4,
+                        size: 10,
                         color: paletaColores[genero] || "#E74C3C",
                         line: { width: 1, color: 'white' }
                     }
@@ -175,12 +265,37 @@
                 if (Tone.context.state === "running") {
                     // Extraemos el nombre de la canción guardado en customdata
                     const cancionAsociada = data.points[0].customdata;
+                    const punto = data.points[0];
+                    const album = punto.text;
+
+                    const datosAlbum = datos.find(d => d.Álbum === album);
+                    const ratings = datosAlbum.Ratings;
+                    const rate = datosAlbum.Rate;
+                    const frecuenciaFiltro = 200 + ((rate / 5) * 12000);
+                    filtro.frequency.rampTo(frecuenciaFiltro, 0.2);
+                    const volumenNormalizado = ratings / maxRatings;
+                    const volumenDB = -35 + (volumenNormalizado * 35);
+                    if (datosAlbum) {
+
+                        const ratings = datosAlbum.Ratings;
+
+                        // porcentaje respecto al máximo
+                        const porcentaje = (ratings / maxRatings) * 100;
+
+                        document.getElementById("album-nombre").innerText = album;
+
+                        document.getElementById("barra-ratings").style.width = `${porcentaje}%`;
+
+                        document.getElementById("texto-ratings").innerText =
+                            `${ratings.toLocaleString()} ratings`;
+                    }
 
                     if (cancionAsociada && reproductores.has(cancionAsociada)) {
                         // Detenemos cualquier audio que esté sonando para que no se mezclen
                         reproductores.stopAll();
                         
                         // Reproducimos la canción específica de este álbum
+                        reproductores.player(cancionAsociada).volume.value = volumenDB;
                         reproductores.player(cancionAsociada).start();
                     }
                 }

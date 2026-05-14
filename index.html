@@ -43,7 +43,7 @@
         .then(response => response.json())
         .then(datos => {
             
-            const añosRepresentativos = [1959, 1960, 1981, 1985, 1997, 2020];
+            const añosRepresentativos = [1959, 1981, 1985];
             const anotaciones = [];
 
             // ------- PARA AUDIOS -------
@@ -53,10 +53,9 @@
                     rutasAudios[d.Cancion] = `audios/${d.Cancion}`;
                 }
             });
-            // ---------------------
-
             // Cargamos todos los audios
             const reproductores = new Tone.Players(rutasAudios).toDestination();
+            // ---------------------
 
             añosRepresentativos.forEach(año => {
                 const albumDestacado = datos.find(d => d.Año === año);
@@ -117,40 +116,22 @@
                 };
             });
 
-
             // CONTEXTO
-            const albumParaComentario = datos.find(d => d.Año === 2006);
-            if (albumParaComentario) {
-                const comentarioTextoPos = { x: 2012, y: 1.8 }; // Arbitrario
+            anotaciones.push({ // Comentario sobre tamaño de puntos
+                xref: 'paper', yref: 'paper',
+                x: 1.01,
+                y:  0.2,
+                xanchor: 'left',
+                yanchor: 'top',
+                text: '<i>El tamaño del punto<br>representa la cantidad<br>de calificaciones<br>que obtuvo</i>',
+                showarrow: false, // El cuadro no tiene flecha propia.
+                font: { size: 11, color: 'black' },
+                bgcolor: '#f2f2f2', // Gris
+                bordercolor: '#000000',
+                borderwidth: 1,
+                borderpad: 6
+            });
 
-                anotaciones.push({ // Cuadro de texto
-                    x: comentarioTextoPos.x,
-                    y: comentarioTextoPos.y,
-                    xref: 'x', yref: 'y',
-                    text: '<i>El tamaño del punto representa la<br>cantidad de calificaciones que obtuvo</i>',
-                    showarrow: false, // El cuadro no tiene flecha propia.
-                    font: { size: 11, color: 'black' },
-                    bgcolor: '#f2f2f2', // Gris
-                    bordercolor: '#000000',
-                    borderwidth: 1,
-                    borderpad: 6
-                });
-
-                anotaciones.push({ // Flecha roja
-                    x: comentarioTextoPos.x,
-                    y: comentarioTextoPos.y + 0.3, // +0.3 para no tapar el texto
-                    xref: 'x', yref: 'y',
-                    text: '',
-                    showarrow: true,
-                    arrowhead: 2,
-                    arrowsize: 1,
-                    arrowwidth: 2,
-                    arrowcolor: 'red',
-                    axref: 'x', ayref: 'y',
-                    ax: albumParaComentario.Año,
-                    ay: albumParaComentario.Rate
-                });
-            }
 
             anotaciones.push({ // Comentario sobre estrellas
                 xref: 'paper', yref: 'paper',

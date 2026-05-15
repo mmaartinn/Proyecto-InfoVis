@@ -86,7 +86,7 @@
 </head>
 <body>
 
-    <h2>Rate de Álbums a lo largo del tiempo</h2>
+    <h2>Rate de Álbums a lo largo del tiempo (En base a "Rate Your Music")</h2>
 
     <button id="iniciar-audio" style="display: block; margin: 0 auto 20px auto; padding: 10px 20px; font-size: 16px; cursor: pointer; background-color: #3498DB; color: white; border: none; border-radius: 5px;">
         Activar Sonido
@@ -173,11 +173,11 @@
 
             // Colores
             const paletaColores = {
-                "Violeta Parra": "#8E44AD", // Violeta claramente
-                "Folklore": "#F39C12", // Amarillo
+                "Violeta Parra": "#CC79A7", // Violeta claramente
+                "Folklore": "#E69F00", // Amarillo
                 "Victor Jara": "#E74C3C", // Rojo
-                "Rock": "#3498DB", // Azul
-                "Otro": "#2ECC71" // Verde
+                "Rock": "#0072B2", // Azul
+                "Otro": "#000000" // Verde
             };
 
             const maxRatings = Math.max(...datos.map(d => d.Ratings || 1));
@@ -239,9 +239,9 @@
             });
 
             const layout = {
-                title: 'Álbums Chilenos Top 1 en Ranking Nacional (Rate Your Music)',
+                title: 'Álbums Chilenos Top 1 en Ranking Nacional',
                 xaxis: { title: 'Año', tickformat: 'd' },
-                yaxis: { title: 'Rate (Calificación)', range: [0, 5] },
+                yaxis: { title: 'Calificación', range: [0, 5] },
                 hovermode: 'closest',
                 annotations: anotaciones,
                 plot_bgcolor: '#fafafa',

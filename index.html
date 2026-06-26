@@ -81,12 +81,32 @@
 
             color: #333;
         }
+        #info-album {
+
+            margin-top: 20px;
+
+            padding-top: 15px;
+
+            border-top: 1px solid #ccc;
+
+            font-size: 14px;
+
+            color: #333;
+
+        }
+
+
+        #info-album p {
+
+            margin: 5px;
+
+        }
         h2 { text-align: center; color: #333; }
     </style>
 </head>
 <body>
 
-    <h2>Rate de Álbums a lo largo del tiempo (En base a "Rate Your Music")</h2>
+    <h2>Rate de Álbums a lo largo del tiempo</h2>
 
     <button id="iniciar-audio" style="display: block; margin: 0 auto 20px auto; padding: 10px 20px; font-size: 16px; cursor: pointer; background-color: #3498DB; color: white; border: none; border-radius: 5px;">
         Activar Sonido
@@ -104,6 +124,18 @@
             </div>
 
             <p id="texto-ratings">0 ratings</p>
+            <div id="info-album">
+
+            <p><b>Artista:</b></p>
+            <p id="album-artista">-</p>
+
+            <p><b>Año:</b></p>
+            <p id="album-anio">-</p>
+
+            <p><b>Rate:</b></p>
+            <p id="album-rate">-</p>
+
+        </div>
         </div>
 
     </div>
@@ -148,7 +180,12 @@
             }).toDestination();
 
             // Players conectados al filtro
-            const reproductores = new Tone.Players(rutasAudios).connect(filtro);            // ---------------------
+            const reproductores = new Tone.Players(rutasAudios).connect(filtro);  
+            const aplausos = new Tone.Player({
+            url: "audios/Slow Clapping Sound Effect.mp3",
+            loop: true,
+            autostart: false }).toDestination();
+            aplausos.volume.value = -12;          // ----------apl-----------
 
             añosRepresentativos.forEach(año => {
                 const albumDestacado = datos.find(d => d.Año === año);
@@ -171,61 +208,34 @@
                 }
             });
 
-            // Colores
-            const paletaColores = {
-                "Violeta Parra": "#CC79A7", // Violeta claramente
-                "Folklore": "#E69F00", // Amarillo
-                "Victor Jara": "#E74C3C", // Rojo
-                "Rock": "#0072B2", // Azul
-                "Otro": "#000000" // Verde
-            };
-
             const maxRatings = Math.max(...datos.map(d => d.Ratings || 1));
             const sizeRef = 2.0 * maxRatings / (40**2);
 
-            const generosUnicos = [...new Set(datos.map(d => d.Género))];
+            const traces = [
+                {
+                    x: datos.map(d => d.Año),
+                    y: datos.map(d => d.Rate),
+                    text: datos.map(d => d.Álbum),
 
-            const traces = generosUnicos.map(genero => {
-                const datosGenero = datos.filter(d => d.Género === genero);
-
-                return {
-                    x: datosGenero.map(d => d.Año),
-                    y: datosGenero.map(d => d.Rate),
-                    text: datosGenero.map(d => d.Álbum),
-
-                    customdata: datosGenero.map(d => d.Cancion), 
+                    customdata: datos.map(d => d.Cancion), 
 
                     mode: 'markers',
                     type: 'scatter',
-                    name: genero,
+                    hoverinfo: 'none',
                     marker: {
                         size: 10,
-                        color: paletaColores[genero] || "#E74C3C",
+                        color: "#000000",
                         line: { width: 1, color: 'white' }
                     }
-                };
-            });
+                }
+            ];
 
-            // CONTEXTO
-            anotaciones.push({ // Comentario sobre tamaño de puntos
-                xref: 'paper', yref: 'paper',
-                x: 1.01,
-                y:  0.2,
-                xanchor: 'left',
-                yanchor: 'top',
-                text: '<i>El tamaño del punto<br>representa la cantidad<br>de calificaciones<br>que obtuvo</i>',
-                showarrow: false, // El cuadro no tiene flecha propia.
-                font: { size: 11, color: 'black' },
-                bgcolor: '#f2f2f2', // Gris
-                bordercolor: '#000000',
-                borderwidth: 1,
-                borderpad: 6
-            });
+
 
 
             anotaciones.push({ // Comentario sobre estrellas
                 xref: 'paper', yref: 'paper',
-                x: 1.01,
+                x: 0.92,
                 y: 0.5,
                 xanchor: 'left',
                 yanchor: 'top',
@@ -239,9 +249,9 @@
             });
 
             const layout = {
-                title: 'Álbums Chilenos Top 1 en Ranking Nacional',
+                title: 'Álbums Chilenos Top 1 en Ranking Nacional (Rate Your Music)',
                 xaxis: { title: 'Año', tickformat: 'd' },
-                yaxis: { title: 'Calificación', range: [0, 5] },
+                yaxis: { title: 'Rate (Calificación)', range: [0, 5] },
                 hovermode: 'closest',
                 annotations: anotaciones,
                 plot_bgcolor: '#fafafa',
@@ -257,50 +267,243 @@
             const config = { responsive: true };
 
             Plotly.newPlot('grafico', traces, layout, config);
-
+            let albumSeleccionado = null;
             const miGrafico = document.getElementById('grafico');
+            let anotacionHover = null;
+            let puntoActivo = null;
+            // =========================
+            // FUNCIÓN CENTRALIZADA
+            // =========================
+            function activarAlbum(datosAlbum) {
+
+                if (!datosAlbum) return;
+                const ratings = datosAlbum.Ratings || 0;
+                const rate = datosAlbum.Rate || 0;
+                const rateMin = 2.7;
+                const rateMax = 4.1;
+                if (rate < 3.0) {
+                    aplausos.playbackRate = 0.2;
+                }
+                else if (rate < 3.3) {
+                    aplausos.playbackRate = 0.5;
+                }
+                else if (rate < 3.6) {
+                    aplausos.playbackRate = 0.9;
+                }
+                else if (rate < 3.9) {
+                    aplausos.playbackRate = 1.4;
+                }
+                else {
+                    aplausos.playbackRate = 2.0;
+                }
+
+                const frecuenciaFiltro =
+                    200 + ((rate / 5) * 12000);
+
+                filtro.frequency.rampTo(frecuenciaFiltro, 0.2);
+
+                const volumenNormalizado = ratings / maxRatings;
+                const volumenDB = -35 + (volumenNormalizado * 35);
+
+                const porcentaje = (ratings / maxRatings) * 100;
+
+                document.getElementById("album-nombre").innerText =
+                    datosAlbum.Álbum;
+
+                document.getElementById("barra-ratings").style.width =
+                    `${porcentaje}%`;
+
+                document.getElementById("texto-ratings").innerText =
+                    `${ratings.toLocaleString()} ratings`;
+                document.getElementById("album-artista").innerText =
+                datosAlbum.Autor || "-";
+                document.getElementById("album-anio").innerText =
+                    datosAlbum.Año || "-";
+                document.getElementById("album-rate").innerText =
+                    datosAlbum.Rate || "-";
+
+                if (
+                    datosAlbum.Cancion &&
+                    reproductores.has(datosAlbum.Cancion)
+                ) {
+                    reproductores.stopAll();
+
+                    reproductores.player(datosAlbum.Cancion)
+                        .volume.value = volumenDB;
+
+                    reproductores.player(datosAlbum.Cancion)
+                        .start();
+                    if (aplausos.state !== "started") {
+                        aplausos.start();}}
+                    
+            };
+            
+            
+
+            function destacarAlbum(datosAlbum) {
+
+                if (!datosAlbum) return;
+
+
+                // Evita redibujar el mismo punto infinitas veces
+                if(albumSeleccionado === datosAlbum.Álbum){
+                    return;
+                }
+
+                albumSeleccionado = datosAlbum.Álbum;
+
+
+                const colores = datos.map(d =>
+                    d.Álbum === datosAlbum.Álbum
+                        ? "#E74C3C"
+                        : "#000000"
+                );
+
+
+                const tamaños = datos.map(d =>
+                    d.Álbum === datosAlbum.Álbum
+                        ? 18
+                        : 10
+                );
+
+
+                Plotly.restyle(
+                    'grafico',
+                    {
+                        'marker.color':[colores],
+                        'marker.size':[tamaños]
+                    }
+                );
+            }
+            
+        function limpiarDestacado() {
+
+            const colores = datos.map(() => "#000000");
+            const tamaños = datos.map(() => 10);
+
+            Plotly.restyle('grafico', {
+
+                'marker.color': [colores],
+
+                'marker.size': [tamaños]
+
+            });
+
+        }
+            
+        function detenerAlbum() {
+                reproductores.stopAll();
+                aplausos.stop();
+
+                document.getElementById("album-nombre").innerText =
+                    "Álbum";
+
+                document.getElementById("barra-ratings").style.width =
+                    "0%";
+
+                document.getElementById("texto-ratings").innerText =
+                    "0 ratings";
+                    document.getElementById("album-artista").innerText = "-";
+
+                document.getElementById("album-anio").innerText =
+                    "-";
+
+                document.getElementById("album-rate").innerText =
+                    "-";
+            }
+            // =========================
+            // WEBSOCKET CON PYTHON
+            // =========================
+            const socket = new WebSocket("ws://localhost:8765");
+
+            socket.onopen = () => {
+                console.log("✅ Conectado a lector.py");
+            };
+
+            socket.onclose = () => {
+                console.log("❌ WebSocket desconectado");
+            };
+
+            socket.onerror = (error) => {
+                console.error("Error WebSocket:", error);
+            };
+
+            socket.onmessage = (event) => {
+
+                const mensaje = JSON.parse(event.data);
+
+                console.log("Mensaje recibido:", mensaje);
+
+                if (mensaje.accion === "play") {
+
+                    const datosAlbum = datos[mensaje.indice];
+
+                    if (!datosAlbum) return;
+
+                    activarAlbum(datosAlbum);
+
+                    const albumNombre = datosAlbum.Álbum;
+
+                    let traceIndex = null;
+                    let pointIndex = null;
+
+                    traces.forEach((trace, tIndex) => {
+
+                        const pIndex = trace.text.indexOf(albumNombre);
+
+                        if (pIndex !== -1) {
+                            traceIndex = tIndex;
+                            pointIndex = pIndex;
+                        }
+                    });
+
+                    if (traceIndex !== null) {
+
+                        Plotly.Fx.hover(
+                            'grafico',
+                            [{
+                                curveNumber: traceIndex,
+                                pointNumber: pointIndex
+                            }]
+                        );
+                        destacarAlbum(datosAlbum);;
+                    }
+                }
+
+                if (mensaje.accion === "stop") {
+
+                    detenerAlbum();
+
+                    Plotly.Fx.unhover('grafico');
+                    limpiarDestacado();
+                }
+            };
 
             // Evento que detecta cuando el cursor pasa sobre un punto del gráfico
             miGrafico.on('plotly_hover', function(data){
+
+                const punto = data.points[0];
+
+                const album = punto.text;
+
+                const datosAlbum =
+                    datos.find(d => d.Álbum === album);
+                destacarAlbum(datosAlbum);
+
+
                 if (Tone.context.state === "running") {
-                    // Extraemos el nombre de la canción guardado en customdata
-                    const cancionAsociada = data.points[0].customdata;
-                    const punto = data.points[0];
-                    const album = punto.text;
 
-                    const datosAlbum = datos.find(d => d.Álbum === album);
-                    const ratings = datosAlbum.Ratings;
-                    const rate = datosAlbum.Rate;
-                    const frecuenciaFiltro = 200 + ((rate / 5) * 12000);
-                    filtro.frequency.rampTo(frecuenciaFiltro, 0.2);
-                    const volumenNormalizado = ratings / maxRatings;
-                    const volumenDB = -35 + (volumenNormalizado * 35);
-                    if (datosAlbum) {
+                    activarAlbum(datosAlbum);
 
-                        const ratings = datosAlbum.Ratings;
-
-                        // porcentaje respecto al máximo
-                        const porcentaje = (ratings / maxRatings) * 100;
-
-                        document.getElementById("album-nombre").innerText = album;
-
-                        document.getElementById("barra-ratings").style.width = `${porcentaje}%`;
-
-                        document.getElementById("texto-ratings").innerText =
-                            `${ratings.toLocaleString()} ratings`;
-                    }
-
-                    if (cancionAsociada && reproductores.has(cancionAsociada)) {
-                        // Detenemos cualquier audio que esté sonando para que no se mezclen
-                        reproductores.stopAll();
-                        
-                        // Reproducimos la canción específica de este álbum
-                        reproductores.player(cancionAsociada).volume.value = volumenDB;
-                        reproductores.player(cancionAsociada).start();
-                    }
                 }
+
             });
 
+
+            miGrafico.on('plotly_unhover', function(){
+                limpiarDestacado();
+
+            });
         })
         .catch(error => console.error("Error cargando dataset:", error));
     </script>

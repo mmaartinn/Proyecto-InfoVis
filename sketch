@@ -1,0 +1,36 @@
+#include <Servo.h>
+
+Servo motor;
+
+void setup() {
+
+    Serial.begin(9600);
+
+    motor.attach(5);
+
+    motor.write(90); // detenido
+}
+
+void loop() {
+
+    if (Serial.available()) {
+
+        String comando = Serial.readStringUntil('\n');
+
+        comando.trim();
+
+        if (comando == "START") {
+
+            motor.write(88);   // velocidad lenta tipo tocadiscos
+
+            Serial.println("Girando");
+        }
+
+        if (comando == "STOP") {
+
+            motor.write(90);   // detener
+
+            Serial.println("Detenido");
+        }
+    }
+}
